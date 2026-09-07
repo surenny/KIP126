@@ -46,7 +46,7 @@ This flat chapter contains only precise published theorem statements that the pr
   For a chosen spectrum-bound sphere $E_2$ presentation with its lawful
   bilinear, unital, associative, Leibniz-compatible and nondegenerate
   internal multiplication, the located \texttt{adams\_one\_line} result is
-  consumed together with the strong-convergence witnesses and supplies the
+  consumed together with the convergence-and-detection witnesses and supplies the
   relation
   \[
     d_2(h_4)=h_0h_3^2.
@@ -59,7 +59,7 @@ This flat chapter contains only precise published theorem statements that the pr
 
 \begin{proof}
   The exact consumer extracts the located result, retains the chosen
-  spectrum's strong-convergence data, checks all lawful algebra fields, and
+  spectrum's convergence-and-detection data, checks all lawful algebra fields, and
   derives the displayed bidegrees from the actual Mathlib $E_2$ differential
   component and the supplied sphere product.
 \end{proof}
@@ -85,6 +85,31 @@ This flat chapter contains only precise published theorem statements that the pr
   the cited theorem and transport its grading to
   Definition~\ref{def:adams-bidegree}; no internal proof of the classical
   calculation is claimed.
+\end{proof}
+
+% SOURCE: aimpaper/main.tex:253-263; bibliography key Adams58.  The local
+% source inventory does not contain a checked copy of the original convergence
+% proof, so this remains a provenance-carrying input rather than a ready node.
+\begin{theorem}[Classical Adams convergence and detection input]
+  \label{thm:external-classical-adams-convergence}
+  \uses{def:admissible-spectrum,def:ss-convergence-detection-witness,def:external-result}
+  \notready
+  For a 2-complete connective spectrum of finite type, an explicit external
+  result supplies a convergence-and-detection witness for the mod--$2$ Adams
+  spectral sequence: its algebraic $E_\infty$ page is the associated graded of
+  the 2-complete stable homotopy filtration, and its nonzero permanent classes
+  detect the corresponding filtered homotopy elements.  The project records
+  this as the standing hypothesis used in
+  \texttt{aimpaper/main.tex:253--263}, with the classical source cited there
+  (bibliography key \texttt{Adams58}); it does not prove convergence for
+  arbitrary unbounded filtered complexes.
+\end{theorem}
+
+\begin{proof}
+  Instantiate the source-bearing external-result record at the admissible
+  spectrum and transport its page and filtration conventions to the concrete
+  classical Adams sequence.  The source locator and the witness remain part of
+  the hypothesis consumed by later definitions.
 \end{proof}
 
 % SOURCE: Ravenel, Complex Cobordism, Theorem 2.2.14; cited at aimpaper/main.tex:273-275.
@@ -258,7 +283,7 @@ This flat chapter contains only precise published theorem statements that the pr
 % SOURCE: BHS Corollary A.9; aimpaper/main.tex:841-847, Proposition prop:30e8b746.
 \begin{theorem}[$E_\infty$ of $\nu X$]
   \label{thm:external-synthetic-einfty-nu}
-  \uses{thm:external-synthetic-rigidity,def:chosen-page-presentation,def:external-result}
+  \uses{thm:external-synthetic-rigidity,def:ss-elementwise-page-presentation,def:ss-einfty-presentation,def:external-result}
   \notready
   In AIM grading,
   \[
@@ -281,7 +306,7 @@ This flat chapter contains only precise published theorem statements that the pr
 % SOURCE: BHS Corollary A.11; aimpaper/main.tex:849-855, Proposition prop:59f111f.
 \begin{theorem}[$E_\infty$ of a finite $\lambda$-quotient]
   \label{thm:external-synthetic-einfty-quotient}
-  \uses{thm:external-lambda-bockstein,def:chosen-page-presentation,def:external-result}
+  \uses{thm:external-lambda-bockstein,def:ss-elementwise-page-presentation,def:ss-einfty-presentation,def:external-result}
   \notready
   For $r\ge2$,
   \[
@@ -437,7 +462,7 @@ This flat chapter contains only precise published theorem statements that the pr
 % SOURCE: Browder, The Kervaire invariant of framed manifolds and its generalization; aimpaper/main.tex:117-123, Theorem thm:browder.
 \begin{theorem}[Browder criterion]
   \label{thm:external-browder-criterion}
-  \uses{def:framed-kervaire-context,def:classical-adams-ss,def:adams-hj,def:ss-cycle-boundary-permanent,def:external-result}
+  \uses{def:framed-kervaire-context,def:classical-adams-ss,def:adams-hj,def:ss-permanent-einfty-class,def:external-result}
   \notready
   Fix a stable context $\mathcal C$, a framed Kervaire context over
   $\mathcal C$, and a chosen classical Adams spectral sequence

@@ -75,8 +75,8 @@ This chapter begins the internal-proof layer.  It consumes the explicit literatu
 
 \begin{proof}
   Unpack the external theorem at the chosen spectra and representatives,
-  discharge its convergence and no-crossing hypotheses from the supplied
-  spectral-sequence data, and transport the detected class through the
+  discharge its convergence-and-detection witness and no-crossing hypotheses
+  from the supplied spectral-sequence data, and transport the detected class through the
   associated-graded isomorphism.  Keep the resulting Toda indeterminacy
   explicit rather than choosing a canonical element.
 \end{proof}
@@ -119,7 +119,7 @@ This chapter begins the internal-proof layer.  It consumes the explicit literatu
 % not covered by aimpaper/main.tex:849-855.
 \begin{proposition}[$E_\infty$ at the first $\lambda$-quotient]
   \label{prop:synthetic-einfty-first-quotient}
-  \uses{thm:external-lambda-bockstein,thm:external-synthetic-rigidity,def:synthetic-lambda-quotient,def:synthetic-adams-ss,def:strong-convergence-detection,def:bhs-aim-regrading}
+  \uses{thm:external-lambda-bockstein,thm:external-synthetic-rigidity,def:synthetic-lambda-quotient,def:synthetic-adams-ss,def:ss-convergence-detection-witness,def:bhs-aim-regrading}
   \notready
   For every admissible $X$, the special-fiber edge map identifies the
   synthetic Adams abutment of $\nu X/\lambda$ with the classical initial page:
@@ -546,7 +546,7 @@ This chapter begins the internal-proof layer.  It consumes the explicit literatu
 % SOURCE: aimpaper/main.tex:1165-1173, Definition def:classicalcrossdiff.
 \begin{definition}[Classical crossing on an $E_{n+1}$ page]
   \label{def:classical-differential-crossing}
-  \uses{def:classical-adams-ss,def:ss-cycle-boundary-permanent}
+  \uses{def:classical-adams-ss,def:ss-permanent-einfty-class}
   \notready
   Let $r\ge n+1$ and $d_r(x)=y$, with $x$ in filtration $s$.  A crossing on
   the $E_{n+1}$ page is an essential differential
@@ -621,7 +621,7 @@ This chapter begins the internal-proof layer.  It consumes the explicit literatu
 % deliberately stated without assuming that the E_infinity extension exists.
 \begin{proposition}[Hopf crossing-obstruction exclusion]
   \label{evidence:hopf-crossing-obstruction-exclusion}
-  \uses{def:page-extension-crossing,prop:page-extension-loss-certificate,thm:external-adams-one-line,def:chosen-page-presentation,def:ss-cycle-boundary-permanent,def:external-evidence,evidence:normalized-hopf-detection}
+  \uses{def:page-extension-crossing,prop:page-extension-loss-certificate,thm:external-adams-one-line,def:ss-elementwise-page-presentation,def:ss-cycle-boundary-survival,def:external-evidence,evidence:normalized-hopf-detection}
   \notready
   For the candidate Hopf relation of length two from
   $h_0h_4^2$ to $h_0p$, a finite evidence record enumerates every

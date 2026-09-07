@@ -23,10 +23,12 @@ This chapter develops the general extension-spectral-sequence construction and i
 % SOURCE: aimpaper/main.tex:264-271, Definition def:ess.
 \begin{definition}[$f$-extension spectral sequence]
   \label{def:f-extension-ss}
-  \uses{def:filtered-two-term-complex,def:core-filtered-chain-complex,def:ess-complex-shape,thm:filtered-complex-to-spectral-sequence,def:strong-convergence-detection}
+  \uses{def:filtered-two-term-complex,def:core-filtered-chain-complex,def:ess-complex-shape,thm:filtered-complex-to-spectral-sequence,def:ss-einfty-presentation,def:ss-convergence-detection-witness}
   \notready
   The $f$-extension spectral sequence, or $f$-ESS, is the spectral sequence of
-  the Adams-filtered two-term complex.  Its initial page and abutment are
+  the Adams-filtered two-term complex.  Given convergence-and-detection
+  witnesses for the source and target Adams sequences, its initial page and
+  abutment comparison are
   \[
     {}^fE_0^{s,t}\cong E_\infty^{s,t}(X)\oplus
       E_\infty^{s,t}(Y)
@@ -35,8 +37,42 @@ This chapter develops the general extension-spectral-sequence construction and i
   \]
   and its differential has degree
   $d_n^f:{}^fE_n^{s,t}\to{}^fE_n^{s+n,t+n}$.  The $d_0$ map is induced by
-  $f$ on associated graded homotopy groups.
+  $f$ on associated graded homotopy groups.  This comparison is a
+  project-specific witness, not a consequence of a general filtered-complex
+  convergence theorem.
 \end{definition}
+
+% SOURCE: aimpaper/main.tex:253-271; project-specific comparison required by
+% the Section 2 ESS arguments.  The source and target convergence witnesses
+% are explicit inputs rather than a generic filtered-complex theorem.
+\begin{theorem}[$f$-ESS initial page and abutment comparison]
+  \label{thm:fess-e0-abutment-comparison}
+  \uses{def:ss-convergence-detection-witness,def:filtered-two-term-complex}
+  \notready
+  Let $f:X\to Y$ be a filtration-preserving stable map, and give the classical
+  Adams sequences of $X$ and $Y$ convergence-and-detection witnesses.  The
+  filtered two-term complex defining the $f$-ESS has
+  \[
+    {}^fE_0^{s,t}\cong E_\infty^{s,t}(X)\oplus E_\infty^{s,t}(Y),
+  \]
+  and its abutment is naturally
+  \[
+    H_*C(f)\cong\ker(\pi_*f)\oplus\operatorname{coker}(\pi_*f).
+  \]
+  The comparison is compatible with the induced $d_0$ map and with the
+  representative ambiguity in both convergence witnesses.  This is the only
+  abutment comparison required by the Section 2 ESS proofs; it does not claim
+  a general strong-convergence theorem for arbitrary filtered complexes.
+\end{theorem}
+
+\begin{proof}
+  Apply the two specified witnesses to identify the associated graded terms of
+  the two filtered homotopy groups with their algebraic $E_\infty$ pages.
+  Compute the homology of the two-term complex directly as kernel plus
+  cokernel, and check that the induced map on associated graded objects is the
+  $d_0$ differential.  Naturality of the witness comparisons gives the stated
+  compatibility.
+\end{proof}
 
 \section{Naturality, composition, and exactness}
 

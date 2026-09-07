@@ -77,7 +77,7 @@ coherences remain outside the Project Boundary.
 % SOURCE: aimpaper/main.tex:799-807, definition implicit in Theorem thm:rigid.
 \begin{definition}[Synthetic Adams spectral sequence]
   \label{def:synthetic-adams-ss}
-  \uses{def:synthetic-context,def:synthetic-tridegree,def:chosen-page-presentation,def:multiplicative-ss,def:strong-convergence-detection,def:unital-multiplication-data}
+  \uses{def:synthetic-context,def:synthetic-tridegree,def:ss-elementwise-page-presentation,def:ss-einfty-presentation,def:multiplicative-ss,def:ss-convergence-detection-witness,def:unital-multiplication-data}
   \notready
   For a synthetic spectrum in scope, its synthetic Adams spectral sequence is
   a trigraded spectral sequence
@@ -85,8 +85,9 @@ coherences remain outside the Project Boundary.
     {}^{\mathrm{syn}}E_r^{s,t,w}\Longrightarrow\pi_{t-s,w},
     \qquad d_r:(s,t,w)\mapsto(s+r,t+r-1,w),
   \]
-  with elementwise cycles, boundaries, naturality, and strong convergence in
-  the ranges used by the paper.  It has natural external smash pairings, and
+  with finite-page elementwise cycles, boundaries, naturality, and an algebraic
+  $E_\infty$ presentation.  A concrete convergence-and-detection witness is
+  supplied separately whenever the paper identifies a synthetic abutment.  It has natural external smash pairings, and
   every such sequence is a module over the sequence for the synthetic sphere
   $S^{0,0}$.  The sphere sequence is internally multiplicative.  More
   generally, an internal multiplicative spectral sequence is obtained only

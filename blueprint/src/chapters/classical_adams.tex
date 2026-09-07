@@ -152,26 +152,25 @@ This chapter defines the Steenrod, Ext, tower, convergence, product, and named-c
 % SOURCE: aimpaper/main.tex:126-150 and standing convergence assumption at 253-263; classical Adams construction.
 \begin{theorem}[Adams tower, Ext, and convergence comparison]
   \label{thm:adams-tower-ext-comparison}
-  \uses{def:hf2-adams-tower,def:adams-tower-filtration,def:steenrod-ext,thm:filtered-complex-to-spectral-sequence,def:strong-convergence-detection,def:external-result}
+  \uses{def:hf2-adams-tower,def:adams-tower-filtration,def:steenrod-ext,thm:filtered-complex-to-spectral-sequence,def:ss-convergence-detection-witness,thm:external-classical-adams-convergence,def:external-result}
   \notready
   The exact couple or filtered cobar complex of the
   $H\mathbb F_2$-Adams tower yields a spectral sequence whose $E_2$ page is
   naturally
   $\operatorname{Ext}_{\mathcal A}^{s,t}
-  (H^*(X;\mathbb F_2),\mathbb F_2)$ and whose induced abutment filtration is
-  Definition~\ref{def:adams-tower-filtration}.  A located classical Adams
-  convergence result supplies strong convergence for the admissible spectra
-  used in the paper.
+  (H^*(X;\mathbb F_2),\mathbb F_2)$ and whose induced tower filtration is
+  Definition~\ref{def:adams-tower-filtration}.  A located classical
+  convergence-and-detection witness is an additional input for the admissible
+  spectra used in the paper; this theorem does not prove it.
 \end{theorem}
 
 \begin{proof}
   Apply the filtered-complex construction to the tower's cobar resolution,
   identify its normalized cochains with the Steenrod cobar complex, and use
-  the module--comodule comparison to obtain the bigraded Ext page.  Finally
-  instantiate the located convergence theorem and identify its complete
-  separated filtration with the tower-image filtration.  Pairings are treated
-  separately in Theorem~\ref{thm:adams-external-pairing}; they are not silently
-  converted into an internal product for arbitrary $X$.
+  the module--comodule comparison to obtain the bigraded Ext page.  Attach the
+  located witness when a later theorem needs the abutment comparison.  Pairings
+  are treated separately in Theorem~\ref{thm:adams-external-pairing}; they are
+  not silently converted into an internal product for arbitrary $X$.
 \end{proof}
 
 % SOURCE: classical Adams tower pairing; aimpaper/main.tex:135-159 uses its
@@ -208,7 +207,7 @@ This chapter defines the Steenrod, Ext, tower, convergence, product, and named-c
 % SOURCE: aimpaper/main.tex:134-150 and 253-263.
 \begin{definition}[Classical Adams spectral sequence]
   \label{def:classical-adams-ss}
-  \uses{thm:adams-tower-ext-comparison,thm:adams-external-pairing,def:steenrod-ext,def:adams-bidegree,def:adams-complex-shape,def:chosen-page-presentation,def:admissible-spectrum,def:stable-homotopy-group,def:strong-convergence-detection}
+  \uses{thm:adams-tower-ext-comparison,thm:adams-external-pairing,def:steenrod-ext,def:adams-bidegree,def:adams-complex-shape,def:ss-elementwise-page-presentation,def:ss-einfty-presentation,def:admissible-spectrum,def:stable-homotopy-group,def:ss-convergence-detection-witness}
   \notready
   For every admissible spectrum $X$, the classical mod--$2$ Adams spectral
   sequence has
@@ -217,9 +216,11 @@ This chapter defines the Steenrod, Ext, tower, convergence, product, and named-c
       (H^*(X;\mathbb F_2),\mathbb F_2),
     \qquad d_r:E_r^{s,t}\to E_r^{s+r,t+r-1},
   \]
-  together with the AIM presentation
-  $E_r\cong Z_{r-1}/B_{r-1}$ for $r\ge2$, naturality, and strong
-  convergence to the $2$-complete stable homotopy of $X$.  These sequences
+  together with the AIM finite-page presentation
+  $E_r\cong Z_{r-1}/B_{r-1}$ for $r\ge2$, the algebraic $E_\infty$
+  presentation, and naturality.  A chosen convergence-and-detection witness
+  identifies this $E_\infty$ with the $2$-complete stable homotopy of $X$ when
+  supplied.  These sequences
   have external smash pairings and are modules over the sphere Adams spectral
   sequence.  The sphere sequence, and more generally the sequence of an
   admissible spectrum with chosen unital multiplication data, is internally
@@ -229,19 +230,20 @@ This chapter defines the Steenrod, Ext, tower, convergence, product, and named-c
 % SOURCE: aimpaper/main.tex:253-263 and 841-864.
 \begin{proposition}[Classical Adams convergence and detection]
   \label{prop:classical-adams-convergence}
-  \uses{def:classical-adams-ss,def:strong-convergence-detection,def:adams-detection}
+  \uses{def:classical-adams-ss,def:ss-convergence-detection-witness,def:adams-detection}
   \notready
-  The $E_\infty$ page of the classical Adams spectral sequence is naturally
-  the associated graded of the Adams filtration on the $2$-complete stable
-  homotopy groups.  Consequently its permanent representatives detect exactly
-  the corresponding filtered homotopy classes.
+  Given a convergence-and-detection witness for the classical sequence, its
+  $E_\infty$ page is identified with the associated graded of the Adams
+  filtration on the $2$-complete stable homotopy groups.  Consequently the
+  witness's detection relation identifies the filtered homotopy classes
+  represented by nonzero permanent classes.
 \end{proposition}
 
 \begin{proof}
-  Apply the strong-convergence component of the classical Adams interface and
-  identify its filtration with the Adams-tower filtration.  The chosen
-  $Z_\infty/B_\infty$ presentation then gives the stated detection relation
-  degree by degree.
+  Project the specified witness to the classical Adams sequence and identify
+  its filtration with the Adams-tower filtration.  The algebraic
+  $Z_\infty/B_\infty$ presentation then supplies the page representatives used
+  by the witness's detection relation.
 \end{proof}
 
 % SOURCE: aimpaper/main.tex:136-162.
@@ -278,7 +280,7 @@ This chapter defines the Steenrod, Ext, tower, convergence, product, and named-c
 % SOURCE: aimpaper/main.tex:307-343, 408-459, and 461-648.
 \begin{definition}[Detection relation]
   \label{def:adams-detection}
-  \uses{def:strong-convergence-detection,def:adams-filtration}
+  \uses{def:ss-convergence-detection-witness,def:adams-filtration}
   \notready
   For a permanent Adams class $x\in E_\infty^{s,t}(X)$ and a homotopy class
   $\alpha\in\pi_{t-s}X$, write $x\leadsto\alpha$ when $x$ is the associated

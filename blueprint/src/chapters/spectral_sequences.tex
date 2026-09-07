@@ -306,7 +306,8 @@ later chapters.
   degreewise bounded-above filtration, supplies this completion witness.
 \end{definition}
 
-% SOURCE: aimpaper/main.tex:253-271 and 827-862; strong convergence is assumed throughout.
+% SOURCE: aimpaper/main.tex:253-271 and 827-862; convergence is a concrete
+% witness for the admissible sequences, not a generic Core construction.
 \begin{definition}[Complete and separated decreasing filtration]
   \label{def:complete-separated-filtration}
   \uses{def:core-filtration,def:core-filtration-completion-witness}
@@ -459,8 +460,8 @@ later chapters.
 \end{definition}
 
 % SOURCE: aimpaper/main.tex:827-862, definitions of Z_r and B_r.
-\begin{definition}[Chosen cycles, boundaries, and pages]
-  \label{def:chosen-page-presentation}
+\begin{definition}[Finite-page elementwise presentation]
+  \label{def:ss-elementwise-page-presentation}
   \uses{def:mathlib-spectral-sequence,def:adams-bidegree,def:ss-page-level,def:adams-complex-shape}
   \notready
   An elementwise presentation includes its displayed-page reindexing.  In the
@@ -490,57 +491,57 @@ later chapters.
   \]
   This proves $B_{r-1}\subseteq B_r\subseteq Z_r$.
   A filtered spectral sequence initialized at $E_0$ must first apply its
-  stored page reindexing before using these Adams symbols.  The presentation
-  also includes
-  $Z_\infty=\bigcap_{r\ge1} Z_r$ and
-  $B_\infty=\bigcup_{r\ge1} B_r$, together with the quotient
-  $E_\infty=Z_\infty/B_\infty$, when these operations exist in the chosen
-  algebraic setting.
+  stored page reindexing before using these Adams symbols.  This node records
+  only finite pages; it makes no assertion about an abutment or about all
+  future pages.
 \end{definition}
 
 % SOURCE: aimpaper/main.tex:134-151, 827-862, and throughout the appendix.
-\begin{definition}[Cycle, boundary, and permanent cycle]
-  \label{def:ss-cycle-boundary-permanent}
-  \uses{def:chosen-page-presentation}
+\begin{definition}[Algebraic $E_\infty$ presentation]
+  \label{def:ss-einfty-presentation}
+  \uses{def:ss-elementwise-page-presentation}
   \notready
-  A representative in the initial $E_2$ page is an $r$-cycle when it lies in
-  $Z_r$, an $r$-boundary when it lies in $B_r$, and a permanent cycle when it
-  lies in $Z_\infty$.  Thus an element of the displayed $E_r$ page is
-  represented by an $(r-1)$-cycle modulo $(r-1)$-boundaries, and surviving
-  the displayed $d_r$ means that its coset has a representative in $Z_r$.
-  This is an existence statement because a different $E_2$ representative
-  may differ by $B_{r-1}$.  A page class survives to $E_\infty$ when some
-  compatible representative lies in $Z_\infty$; its limiting class is the
-  corresponding coset in $Z_\infty/B_\infty$, and is zero precisely when the
-  permanent representative lies in $B_\infty$.
+  Given compatible finite-page data, define
+  $Z_\infty=\bigcap_{r\ge1}Z_r$ and
+  $B_\infty=\bigcup_{r\ge1}B_r$ in the chosen graded abelian category, and
+  define the algebraic limit page by $E_\infty=Z_\infty/B_\infty$.
+  This quotient is not an abutment or an associated graded object; every such
+  identification is supplied by a separate convergence witness.
 \end{definition}
 
-% SOURCE: aimpaper/main.tex:253-263, standing convergence assumptions.
-\begin{definition}[Strong convergence with detection]
-  \label{def:strong-convergence-detection}
-  \uses{def:core-filtration,def:complete-separated-filtration,def:chosen-page-presentation}
-  \lean{KIP126.Classical.Adams.StrongClassicalAdamsConvergence}
+\begin{definition}[Finite survival and permanent classes]
+  \label{def:ss-cycle-boundary-survival}
+  \uses{def:ss-elementwise-page-presentation}
   \notready
-  A strongly convergent elementwise spectral sequence for a graded abutment
-  $A_*$ consists of a complete, exhaustive, degreewise separated filtration
-  $F^sA_n$, a stable-page bound $R(s,n)$, and isomorphisms
-  \[
-    E_r^{s,s+n}\cong F^sA_n/F^{s+1}A_n
-    \qquad(r\ge R(s,n))
-  \]
-  compatible with every page-passage isomorphism.  It also records a
-  degreewise regularity hypothesis strong enough to rule out the relevant
-  Boardman obstruction; completeness and separatedness alone are not used as
-  a substitute for this hypothesis.  The implemented classical structure
-  contains the stable-page coherence, completion, exhaustiveness, and
-  separatedness data.  A generic regularity interface and the elementwise
-  detection relation remain pending.
+  A representative in the initial $E_2$ page is an $r$-cycle when it lies in
+  $Z_r$ and an $r$-boundary when it lies in $B_r$.  An $E_r$ class survives
+  through page $R$ when it has a representative in $Z_R$ modulo
+  $B_{R-1}$.  This finite survival statement makes no claim about pages after
+  $R$ and cannot by itself be upgraded to permanence.
+\end{definition}
 
-  Under these data, $x\in E_\infty^{s,s+n}$ detects $\alpha\in A_n$ exactly
-  when $\alpha\in F^sA_n$ and its image in
-  $F^sA_n/F^{s+1}A_n$ is the image of $x$ under the limiting comparison.
-  Detection determines the lift only modulo $F^{s+1}A_n$; it is a relation,
-  not a chosen function from page classes to abutment elements.
+\begin{definition}[Permanent representative and nonzero $E_\infty$ class]
+  \label{def:ss-permanent-einfty-class}
+  \uses{def:ss-einfty-presentation,def:ss-cycle-boundary-survival}
+  \notready
+  A representative is permanent when it lies in $Z_\infty$; its limiting
+  class is its coset in $E_\infty=Z_\infty/B_\infty$.  That class is nonzero
+  exactly when the representative is not in $B_\infty$.
+\end{definition}
+
+% SOURCE: aimpaper/main.tex:253-263, PROJECT_BOUNDARY.md external-input boundary.
+\begin{definition}[Convergence and detection witness]
+  \label{def:ss-convergence-detection-witness}
+  \uses{def:core-filtration,def:ss-einfty-presentation,def:external-result}
+  \notready
+  A convergence-and-detection witness for a concrete spectral sequence consists
+  of a graded abutment $A_*$, a decreasing filtration $F^sA_n$, a comparison
+  $E_\infty\cong\operatorname{gr}^F A$, and a detection relation between
+  nonzero $E_\infty$ classes and filtered elements of $A_*$.  It records the
+  naturality and representative ambiguity needed by its consumer.  It is an
+  explicit project input or located external result for this sequence; it does
+  not assert a general Boardman theorem, vanishing of a $\lim^1$ obstruction,
+  or automatic convergence of arbitrary unbounded filtrations.
 \end{definition}
 
 \begin{lemma}[Projection equation for a restricted differential]
@@ -780,7 +781,7 @@ later chapters.
 % SOURCE: aimpaper/main.tex:138-150, 159-162, 1606-1753.
 \begin{definition}[Multiplicative spectral sequence]
   \label{def:multiplicative-ss}
-  \uses{def:chosen-page-presentation}
+  \uses{def:ss-elementwise-page-presentation}
   \notready
   A multiplicative spectral sequence specifies, on every displayed page,
   products $E_r^i\otimes E_r^j\to E_r^{i+j}$ and a unit in degree zero, with
@@ -801,28 +802,27 @@ later chapters.
 % SOURCE: aimpaper/main.tex:253-263 and all later elementwise arguments.
 \begin{proposition}[Categorical and elementwise presentations agree]
   \label{prop:categorical-elementwise-comparison}
-  \uses{def:mathlib-spectral-sequence,def:mathlib-short-complex-exact,thm:mathlib-exact-iff-image-kernel,def:mathlib-spectral-object-cycles,def:mathlib-spectral-object-opcycles,def:chosen-page-presentation,thm:filtered-complex-to-spectral-sequence}
+  \uses{def:mathlib-spectral-sequence,def:mathlib-short-complex-exact,thm:mathlib-exact-iff-image-kernel,def:mathlib-spectral-object-cycles,def:mathlib-spectral-object-opcycles,def:ss-elementwise-page-presentation}
   \notready
-  Let a spectral sequence in graded $\mathbb F_2$-vector spaces be constructed
-  from a specified exact couple or filtered complex, and let its elementwise
-  presentation be the one induced by that same construction.  After the
-  stored page reindexing, there are natural isomorphisms
-  $E_r\cong Z_{r-1}/B_{r-1}$ for every $r\ge2$.  They commute with page
-  passage and identify the Mathlib page differential with the map induced by
-  the representative homomorphism
-  $\widetilde d_r:Z_{r-1}\to E_2/B_{r-1}$.  The proposition makes no claim
-  for an arbitrary independently chosen family of subgroups named $Z$ and
-  $B$.
+  Let a concrete Mathlib spectral sequence in graded $\mathbb F_2$-vector
+  spaces have its cycles and opcycles induced by one spectral object.  After
+  the stored page reindexing, these categorical kernels and cokernels induce
+  the finite-page subgroups $Z_r,B_r$ and natural isomorphisms
+  $E_r\cong Z_{r-1}/B_{r-1}$.  They commute with adjacent page passage and
+  identify the Mathlib differential with the representative map
+  $\widetilde d_r:Z_{r-1}\to E_2/B_{r-1}$.  This is an internal algebraic
+  comparison only; it does not include an abutment, filtered homology, or a
+  convergence assertion.
 \end{proposition}
 
 \begin{proof}
-  Construct the isomorphism on $E_2=Z_1/B_1$, identify each next Mathlib page
-  with homology, and induct on the displayed index $r$.  Passing from $E_r$ to
-  $E_{r+1}$ takes the homology of
-  $Z_{r-1}/B_{r-1}$ and gives precisely $Z_r/B_r$; naturality supplies
-  compatibility with page passage.  The construction must be carried
-  out for the concrete classical and synthetic presentations, not postulated
-  for an arbitrary spectral sequence.
+  Unfold Mathlib's `cycles` and `opcycles` as kernels and cokernels, use
+  exactness to identify their elements with the representative kernels and
+  incoming images, and construct the $E_2$ quotient isomorphism.  Induct over
+  finite page passage; naturality of the spectral-object maps gives the
+  adjacent-page coherence.  No filtered-complex construction is used in this
+  comparison, so the dependency points only from the Mathlib object to the
+  finite presentation.
 \end{proof}
 
 \section{Filtered-complex realization}
@@ -1077,7 +1077,7 @@ later chapters.
 % Mathlib/Algebra/Homology/HomotopyCategory/ShiftSequence.lean.
 \begin{definition}[Filtered-complex to spectral-object adapter]
   \label{def:filtered-complex-spectral-object-adapter}
-  \uses{def:filtered-complex-cochain-diagram,def:filtered-complex-triangulated-spectral-object,def:filtered-complex-triangulated-spectral-object-morphism,def:filtered-complex-abelian-spectral-object,def:filtered-complex-abelian-spectral-object-morphism,def:filtered-complex-endpoint-extension,def:filtered-complex-endpoint-e2-spectral-sequence,def:page-abutment-comparison-witness,def:filtered-complex-endpoint-extension-morphism,def:core-filtration-completion-witness,def:complete-separated-filtration,def:mathlib-mapping-cone-spectral-object,def:mathlib-triangulated-spectral-object-precomp,def:homological-image-abelian-spectral-object}
+  \uses{def:filtered-complex-cochain-diagram,def:filtered-complex-triangulated-spectral-object,def:filtered-complex-triangulated-spectral-object-morphism,def:filtered-complex-abelian-spectral-object,def:filtered-complex-abelian-spectral-object-morphism,def:filtered-complex-endpoint-extension,def:filtered-complex-endpoint-e2-spectral-sequence,def:filtered-complex-endpoint-extension-morphism,def:mathlib-mapping-cone-spectral-object,def:mathlib-triangulated-spectral-object-precomp,def:homological-image-abelian-spectral-object}
   \notready
   The core precomposition and homological-image steps are implemented by
   Definitions~\ref{def:filtered-complex-triangulated-spectral-object} and
@@ -1103,41 +1103,33 @@ later chapters.
   with its shift sequence, to obtain the required \emph{abelian} spectral
   object.  A degree-zero homology specialization is a later explicit
   instance, not part of this generic adapter.  A
-  degreewise \texttt{CompletionWitness} now expresses the canonical
-  quotient-tower completion condition, and a selected-page comparison can be
-  kept as explicit data by
-  Definition~\ref{def:page-abutment-comparison-witness}.  Their existence,
-  page-passage coherence, and comparison with filtered homology are still
-  separate obligations.  The current implementation reaches functorial
-  morphisms of triangulated and abelian spectral objects.  It does not yet
-  package the induced Mathlib spectral-sequence morphism, preservation of
-  boundary/comparison witnesses, separatedness, or the elementwise $Z/B$
-  presentation; these are precisely the remaining obligations.
+  The current implementation reaches functorial morphisms of triangulated and
+  abelian spectral objects.  It does not package convergence, an abutment, or
+  an elementwise $Z/B$ presentation: those are separate witnesses and the
+  finite comparison node.  A caller that needs $E_\infty$ or detection must
+  provide an explicit witness for the concrete sequence.
 \end{definition}
 
 % SOURCE: aimpaper/main.tex:253-271, Definition def:ess; standard filtered-complex construction used implicitly.
 \begin{theorem}[Filtered complex produces a spectral sequence]
   \label{thm:filtered-complex-to-spectral-sequence}
-  \uses{def:filtered-complex-spectral-object-adapter,def:filtered-complex-triangulated-spectral-object-morphism,def:filtered-complex-abelian-spectral-object-morphism,def:filtered-chain-map,def:filtered-associated-graded-chain-map,def:filtered-associated-graded-functoriality,def:core-associated-graded-object,def:core-associated-graded-differential,thm:core-associated-graded-differential-sq,def:mathlib-spectral-sequence-data-core,def:mathlib-has-spectral-sequence,def:mathlib-spectral-object-spectral-sequence,def:mathlib-spectral-object-cycles,def:mathlib-spectral-object-opcycles,def:chosen-page-presentation,def:complete-separated-filtration,def:ss-page-level}
+  \uses{def:filtered-complex-spectral-object-adapter,def:filtered-complex-triangulated-spectral-object-morphism,def:filtered-complex-abelian-spectral-object-morphism,def:filtered-chain-map,def:filtered-associated-graded-chain-map,def:filtered-associated-graded-functoriality,def:core-associated-graded-object,def:core-associated-graded-differential,thm:core-associated-graded-differential-sq,def:mathlib-spectral-sequence-data-core,def:mathlib-has-spectral-sequence,def:mathlib-spectral-object-spectral-sequence,def:mathlib-spectral-object-cycles,def:mathlib-spectral-object-opcycles,def:ss-page-level}
   \notready
   Let a decreasingly filtered chain complex of $\mathbb F_2$-vector spaces
-  have a filtration-preserving differential.  Assume the full adapter input
-  of Definition~\ref{def:filtered-complex-spectral-object-adapter}, and assume
-  an initial-page comparison identifying the recipe's initial displayed page
-  with the associated-graded complex.  Then the adapter produces the stated
-  Mathlib spectral sequence.  If, in addition, coherent strong-convergence
-  data identify the endpoint abutment with filtered homology, its limiting
-  page is the associated graded of filtered homology.  If the induced
-  categorical--elementwise comparison is supplied, the stored display
-  reindexing gives $E_r\cong Z_{r-1}/B_{r-1}$.
+  have a filtration-preserving differential.  Assume the adapter input of
+  Definition~\ref{def:filtered-complex-spectral-object-adapter} and an
+  initial-page comparison identifying the recipe's first displayed page with
+  the associated-graded complex.  Then the adapter produces the stated
+  Mathlib spectral sequence and its functorial spectral-object maps.  If a
+  caller supplies the finite categorical--elementwise comparison, the stored
+  display reindexing gives $E_r\cong Z_{r-1}/B_{r-1}$ for every finite page.
+  Any abutment, filtered-homology comparison, $E_\infty$ identification, or
+  detection statement is an additional witness and is not inferred here.
 
   For functoriality, a filtered chain map must be accompanied by compatible
-  maps of the chosen endpoint extensions, boundary witnesses, recipes, and
-  convergence comparisons.  Under those hypotheses it induces a Mathlib
-  spectral-sequence morphism whose initial component is the associated-graded
-  chain map; identities and composition are preserved.  No claim is made that
-  an arbitrary filtered chain map automatically preserves independently
-  chosen endpoint or convergence data.
+  maps of the endpoint extensions and page recipes.  It induces the
+  corresponding functorial spectral-object maps; no convergence or abutment
+  data are inferred automatically.
 \end{theorem}
 
 \begin{proof}
@@ -1147,13 +1139,10 @@ later chapters.
   \texttt{HasSpectralSequence} fields from the stated boundary hypotheses;
   regularity alone does not manufacture an endpoint extension.  Invoke
   Mathlib's spectral-object construction rather than defining a second
-  spectral sequence.  Identify its categorical cycles and opcycles with the
-  filtration kernels and cokernels and hence, with the recorded predecessor
-  offset, with $Z_{r-1}$ and $B_{r-1}$ on the displayed $E_r$ page.  Finally use
-  completeness, separatedness, and degreewise regularity to eliminate the
-  Boardman obstruction and identify the limiting filtration with filtered
-  homology.  For a filtered chain map with the compatibility data above, apply
-  functoriality of the cochain diagram, mapping-cone construction, and
-  homological-image bridge, then construct the spectral-sequence morphism and
-  prove that its initial component is the associated-graded chain map.
+  spectral sequence.  The finite categorical--elementwise comparison then
+  identifies its cycles and opcycles with $Z_{r-1}$ and $B_{r-1}$ on each
+  displayed finite page.  For a filtered chain map with the compatibility data
+  above, apply functoriality of the cochain diagram, mapping-cone construction,
+  and homological-image bridge; no abutment or convergence comparison is
+  manufactured by this theorem.
 \end{proof}
