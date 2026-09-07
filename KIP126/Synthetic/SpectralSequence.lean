@@ -1,4 +1,5 @@
 import KIP126.Synthetic.SpectralSequence.Basic
+import KIP126.Synthetic.SpectralSequence.LambdaAction
 
 /-!
 # Synthetic spectral sequences
