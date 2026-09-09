@@ -1,5 +1,6 @@
 import KIP126.Core.Algebra.Filtered
 import Mathlib.CategoryTheory.Limits.Constructions.EventuallyConstant
+import Mathlib.CategoryTheory.Subobject.Limits
 
 /-!
 # Degreewise completion of a decreasing filtration
@@ -23,6 +24,62 @@ variable {C : Type u} [Category.{v} C] [Abelian C]
 variable {ι : Type w} {A : CategoryTheory.GradedObject ι C}
 
 namespace Filtration
+
+private lemma imageSubobject_ofLE_eq_bot_of_eq_bot {B : C} (X Y : Subobject B)
+    (h : X ≤ Y) (hX : X = ⊥) : imageSubobject (Subobject.ofLE X Y h) = ⊥ := by
+  subst hX
+  have hzero : Subobject.ofLE ⊥ Y h = 0 := by
+    apply (cancel_mono Y.arrow).mp
+    rw [Subobject.ofLE_arrow, Subobject.bot_arrow, zero_comp]
+  rw [hzero, imageSubobject_zero]
+
+/-! ### Mittag--Leffler stabilization
+
+The categorical form records stabilization of the images of the deeper
+filtration levels inside a fixed level.  It is deliberately stated using
+subobjects rather than elements, so it applies to every abelian category. -/
+
+/-- A decreasing filtration satisfies the Mittag--Leffler condition when the
+images of its deeper levels in each fixed level eventually stabilize. -/
+def IsMittagLeffler (F : Filtration A) : Prop :=
+  ∀ (i : ι) (s : ℤ), ∃ N : ℕ, ∀ n : ℕ, N ≤ n →
+    imageSubobject (Subobject.ofLE (F.F (s + (n : ℤ)) i) (F.F s i)
+      (F.le_of_le (by omega) i)) =
+      imageSubobject (Subobject.ofLE (F.F (s + (N : ℤ)) i) (F.F s i)
+        (F.le_of_le (by omega) i))
+
+/-- A degreewise bounded-above filtration has eventually zero images and hence
+satisfies the categorical Mittag--Leffler condition. -/
+lemma IsBoundedAbove.isMittagLeffler {F : Filtration A}
+    (hF : IsBoundedAbove F) : IsMittagLeffler F := by
+  intro i s
+  refine ⟨(hF.upper i - s).toNat, ?_⟩
+  intro n hn
+  have hN : hF.upper i ≤ s + ((hF.upper i - s).toNat : ℤ) := by omega
+  have hn' : hF.upper i ≤ s + (n : ℤ) := by omega
+  rw [imageSubobject_ofLE_eq_bot_of_eq_bot _ _ _
+      (hF.eq_bot_of_le i _ hn'),
+    imageSubobject_ofLE_eq_bot_of_eq_bot _ _ _
+      (hF.eq_bot_of_le i _ hN)]
+
+/-- A degreewise bounded filtration satisfies the Mittag--Leffler condition. -/
+lemma IsBounded.isMittagLeffler {F : Filtration A}
+    (hF : IsBounded F) : IsMittagLeffler F :=
+  hF.toIsBoundedAbove.isMittagLeffler
+
+/-- A degreewise eventually-zero filtration satisfies the
+Mittag--Leffler condition. -/
+lemma IsEventuallyZero.isMittagLeffler {F : Filtration A}
+    (hF : IsEventuallyZero F) : IsMittagLeffler F := by
+  let hB : IsBoundedAbove F :=
+    { upper := fun i => Classical.choose (hF i)
+      eq_bot_of_le := by
+        intro i s hs
+        apply le_antisymm
+        · rw [← Classical.choose_spec (hF i)]
+          exact F.le_of_le hs i
+        · exact bot_le }
+  exact hB.isMittagLeffler
 
 /-- The quotient `Aᵢ / Fˢ Aᵢ` at one filtration and grading degree. -/
 noncomputable def quotientAt (F : Filtration A) (s : ℤ) (i : ι) : C :=
@@ -135,6 +192,57 @@ lemma completionIso_hom_comp_limit_π (W : CompletionWitness F i)
   IsLimit.conePointUniqueUpToIso_hom_comp W.isLimit (limit.isLimit _) s
 
 end CompletionWitness
+
+/-! ### Witness-indexed completion filtration
+
+The following construction is intentionally indexed by a family of explicit
+completion witnesses.  It packages the quotient limits into a graded object
+and filters that object by the kernels of its canonical quotient projections.
+No ambient completeness instance is introduced. -/
+
+/-- The component of the completion selected by an explicit witness family. -/
+noncomputable def completionObject (F : Filtration A)
+    (W : ∀ i : ι, CompletionWitness F i) (i : ι) : C :=
+  letI := (W i).hasLimit
+  limit (F.quotientTower i)
+
+/-- The canonical projection from a witness-indexed completion to a quotient. -/
+noncomputable def completionProjection (F : Filtration A)
+    (W : ∀ i : ι, CompletionWitness F i) (s : ℤ) (i : ι) :
+    F.completionObject W i ⟶ F.quotientAt s i :=
+  letI := (W i).hasLimit
+  limit.π (F.quotientTower i) (OrderDual.toDual s)
+
+/-- The completion filtration is the kernel filtration of the quotient
+projections.  Its decreasing law follows from quotient-transition
+compatibility and the kernel monotonicity lemma. -/
+noncomputable def completionFiltration (F : Filtration A)
+    (W : ∀ i : ι, CompletionWitness F i) :
+    Filtration (fun i => F.completionObject W i) where
+  F s i := kernelSubobject (F.completionProjection W s i)
+  decreasing s i := by
+    letI := (W i).hasLimit
+    change kernelSubobject (limit.π (F.quotientTower i) (OrderDual.toDual (s + 1))) ≤
+      kernelSubobject (limit.π (F.quotientTower i) (OrderDual.toDual s))
+    have h := limit.w (F.quotientTower i)
+      (show OrderDual.toDual (s + 1) ⟶ OrderDual.toDual s from
+        homOfLE (show s ≤ s + 1 by omega))
+    rw [← h]
+    exact kernelSubobject_comp_le _ _
+
+/-- The completion projections respect the quotient-tower transitions. -/
+@[simp]
+lemma completionProjection_comp_quotientTransition
+    (F : Filtration A) (W : ∀ i : ι, CompletionWitness F i)
+    {t s : ℤ} (h : t ≤ s) (i : ι) :
+    F.completionProjection W s i ≫ F.quotientTransition h i =
+      F.completionProjection W t i := by
+  letI := (W i).hasLimit
+  change limit.π (F.quotientTower i) (OrderDual.toDual s) ≫
+      F.quotientTransition h i =
+    limit.π (F.quotientTower i) (OrderDual.toDual t)
+  exact limit.w (F.quotientTower i)
+    (show OrderDual.toDual s ⟶ OrderDual.toDual t from homOfLE h)
 
 /-- Once a decreasing filtration is zero at level `t`, it is zero at every
 higher level `s`. -/
