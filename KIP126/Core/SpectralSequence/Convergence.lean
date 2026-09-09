@@ -1,5 +1,5 @@
 import KIP126.Core.SpectralSequence.SpectralObjectAdapter
-import KIP126.Core.Algebra.Completion
+import KIP126.Core.Algebra.Completion.Basic
 import Mathlib.Algebra.Homology.SpectralObject.FirstPage
 
 /-!

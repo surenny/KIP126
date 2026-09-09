@@ -1,5 +1,5 @@
 import KIP126.Core.SpectralSequence.FilteredComplex
-import KIP126.Core.Algebra.Completion
+import KIP126.Core.Algebra.Completion.Basic
 
 /-!
 # Bounded extension spectral sequences

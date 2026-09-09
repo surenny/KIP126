@@ -1,6 +1,6 @@
 import KIP126.Core.SpectralSequence.Basic
 import KIP126.Core.SpectralSequence.PageLevel
-import KIP126.Core.Algebra.Completion
+import KIP126.Core.Algebra.Completion.Basic
 import KIP126.Core.Algebra.Coefficients
 import KIP126.External.Claims
 import Mathlib.Algebra.Category.Grp.Abelian

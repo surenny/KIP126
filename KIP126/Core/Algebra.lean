@@ -1,4 +1,5 @@
-import KIP126.Core.Algebra.Completion
+import KIP126.Core.Algebra.Completion.Basic
+import KIP126.Core.Algebra.Completion.Regression
 import KIP126.Core.Algebra.Coefficients
 import KIP126.Core.Algebra.Filtered
 import KIP126.Core.Algebra.Graded

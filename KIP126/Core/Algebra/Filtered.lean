@@ -1,5 +1,6 @@
 import KIP126.Core.Algebra.Graded
 import Mathlib.Algebra.Homology.ShortComplex.HomologicalComplex
+import Mathlib.CategoryTheory.Subobject.Limits
 
 /-!
 # Filtered graded objects
@@ -178,6 +179,67 @@ lemma IsBoundedAbove.isEventuallyZero [Abelian C] {F : Filtration A} (hF : IsBou
     IsEventuallyZero F := by
   intro i
   exact ⟨hF.upper i, hF.eq_bot_of_le i (hF.upper i) le_rfl⟩
+
+section MittagLeffler
+
+variable [Abelian C]
+
+private lemma imageSubobject_ofLE_eq_bot_of_eq_bot {B : C} (X Y : Subobject B)
+    (h : X ≤ Y) (hX : X = ⊥) : imageSubobject (Subobject.ofLE X Y h) = ⊥ := by
+  subst hX
+  have hzero : Subobject.ofLE ⊥ Y h = 0 := by
+    apply (cancel_mono Y.arrow).mp
+    rw [Subobject.ofLE_arrow, Subobject.bot_arrow, zero_comp]
+  rw [hzero, imageSubobject_zero]
+
+/-! ### Mittag--Leffler stabilization
+
+The categorical form records stabilization of the images of the deeper
+filtration levels inside a fixed level.  It is deliberately stated using
+subobjects rather than elements, so it applies to every abelian category. -/
+
+/-- A decreasing filtration satisfies the Mittag--Leffler condition when the
+images of its deeper levels in each fixed level eventually stabilize.
+
+This reusable condition is the filtration-side prerequisite for the inverse-limit
+ESS extension target `lem:synthetic-ess-coherent-tower-limit` in
+`blueprint/src/chapters/comparison_and_rules.tex`. -/
+def IsMittagLeffler (F : Filtration A) : Prop :=
+  ∀ (i : ι) (s : ℤ), ∃ N : ℕ, ∀ n : ℕ, N ≤ n →
+    imageSubobject (Subobject.ofLE (F.F (s + (n : ℤ)) i) (F.F s i)
+      (F.le_of_le (by omega) i)) =
+      imageSubobject (Subobject.ofLE (F.F (s + (N : ℤ)) i) (F.F s i)
+        (F.le_of_le (by omega) i))
+
+/-- A degreewise bounded-above filtration has eventually zero images and hence
+satisfies the categorical Mittag--Leffler condition. -/
+lemma IsBoundedAbove.isMittagLeffler {F : Filtration A}
+    (hF : IsBoundedAbove F) : IsMittagLeffler F := by
+  intro i s
+  refine ⟨(hF.upper i - s).toNat, ?_⟩
+  intro n hn
+  have hN : hF.upper i ≤ s + ((hF.upper i - s).toNat : ℤ) := by omega
+  have hn' : hF.upper i ≤ s + (n : ℤ) := by omega
+  rw [imageSubobject_ofLE_eq_bot_of_eq_bot _ _ _
+      (hF.eq_bot_of_le i _ hn'),
+    imageSubobject_ofLE_eq_bot_of_eq_bot _ _ _
+      (hF.eq_bot_of_le i _ hN)]
+
+/-- A degreewise eventually-zero filtration satisfies the
+Mittag--Leffler condition. -/
+lemma IsEventuallyZero.isMittagLeffler {F : Filtration A}
+    (hF : IsEventuallyZero F) : IsMittagLeffler F := by
+  let hB : IsBoundedAbove F :=
+    { upper := fun i => Classical.choose (hF i)
+      eq_bot_of_le := by
+        intro i s hs
+        apply le_antisymm
+        · rw [← Classical.choose_spec (hF i)]
+          exact F.le_of_le hs i
+        · exact bot_le }
+  exact hB.isMittagLeffler
+
+end MittagLeffler
 
 end Filtration
 

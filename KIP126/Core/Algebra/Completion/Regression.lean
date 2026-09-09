@@ -1,4 +1,4 @@
-import KIP126.Core.Algebra.Completion
+import KIP126.Core.Algebra.Completion.Basic
 
 /-!
 # Completion safety regressions
@@ -27,6 +27,12 @@ example (F : Filtration A) (hF : F.IsEventuallyZero) :
 noncomputable example (F : Filtration A) (W : ∀ i : ι, F.CompletionWitness i) :
     Filtration (fun i => F.completionObject W i) :=
   F.completionFiltration W
+
+noncomputable example (F : Filtration A) (W : ∀ i : ι, F.CompletionWitness i)
+    (s : ℤ) (i : ι) :
+    (F.completionFiltration W).F s i =
+      kernelSubobject (F.completionProjection W s i) :=
+  F.completionFiltration_F W s i
 
 example (F : Filtration A) (W : ∀ i : ι, F.CompletionWitness i)
     {t s : ℤ} (h : t ≤ s) (i : ι) :
